@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity() {
 
-    private var auth = Firebase.auth
+    //private var auth = Firebase.auth
     private lateinit var emailAddressInputLayout: TextInputLayout
     private lateinit var emailAddressEditText: TextInputEditText
     private lateinit var passwordInputLayout: TextInputLayout
@@ -24,12 +24,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        if (auth.currentUser != null) {
-            loggedInHandler()
-        }
-
+//        if (auth.currentUser != null) {
+//            loggedInHandler()
+//        }
+//
         toSignUpActivity()
-        logInUser()
+//        logInUser()
     }
 
     private fun logInUser() {
@@ -57,13 +57,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-//    private fun toSignUpActivity() {
-//        findViewById<TextView>(R.id.moveToSignUpButton).setOnClickListener {
-//            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
-//    }
+    private fun toSignUpActivity() {
+        findViewById<TextView>(R.id.moveToSignUpButton).setOnClickListener {
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
 //    private fun loggedInHandler() {
 //        Toast.makeText(
