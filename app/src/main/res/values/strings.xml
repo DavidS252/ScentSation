@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">ScentSation</string>
+    <string name="title_home">Home</string>
+    <string name="title_my_posts">My Posts</string>
+    <string name="title_profile">Profile</string>
+    <string name="text_log_in">Log In</string>
+    <string name="text_email">Email</string>
+    <string name="text_password_hint">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="button_sign_up_link">Sign Up</string>
+    <string name="button_forgot_password_link">forgot password?</string>
+    <string name="text_create_account">Create an account</string>
+    <string name="text_choose_profile_pic">Choose profile picture</string>
+    <string name="text_user_name">User Name</string>
+    <string name="text_repeat_password">Repeat Password</string>
+    <string name="text_back_icon">back icon</string>
+    <string name="text_image_placeholder">image placeholder</string>
+    <string name="submit">Submit</string>
+    <string name="upload_picture">Upload Picture</string>
+    <string name="describe_your_food">Describe your food</string>
+    <string name="home">Home</string>
+    <string name="select_image">selectImage</string>
+    <string name="text_edit_profile_pic">Edit profile image</string>
+    <string name="save">Save</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="log_out">Log Out</string>
+    <string name="post_image">post image</string>
+    <string name="no_posts_available">No posts available</string>
 </resources>
