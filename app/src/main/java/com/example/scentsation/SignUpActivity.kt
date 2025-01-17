@@ -22,6 +22,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.Firebase
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.auth
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var imageSelectionCallBack: ActivityResultLauncher<Intent>
@@ -34,7 +37,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var confirmPasswordInputLayout: TextInputLayout
     private lateinit var confirmPasswordEditText: TextInputEditText
-    //private val auth = Firebase.auth
+    private val auth = Firebase.auth
 
     @RequiresExtension(extension = Build.VERSION_CODES.R, version = 2)
     @SuppressLint("MissingInflatedId")
