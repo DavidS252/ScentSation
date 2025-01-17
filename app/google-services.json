@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "980055717258",
+    "project_id": "scentsation-c60b9",
+    "storage_bucket": "scentsation-c60b9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980055717258:android:631dbd429f62363df9c473",
+        "android_client_info": {
+          "package_name": "com.example.scentsation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB38c0HQREdEwRt26euQLUR8etnwvda85Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
