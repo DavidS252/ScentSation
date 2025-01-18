@@ -12,16 +12,18 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresExtension
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.scentsation.data.user.User
+import com.example.scentsation.data.user.UserModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.Firebase
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.auth
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var imageSelectionCallBack: ActivityResultLauncher<Intent>
@@ -34,7 +36,7 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var passwordEditText: TextInputEditText
     private lateinit var confirmPasswordInputLayout: TextInputLayout
     private lateinit var confirmPasswordEditText: TextInputEditText
-    //private val auth = Firebase.auth
+    private val auth = Firebase.auth
 
     @RequiresExtension(extension = Build.VERSION_CODES.R, version = 2)
     @SuppressLint("MissingInflatedId")
@@ -67,32 +69,32 @@ class SignUpActivity : AppCompatActivity() {
             val syntaxChecksResult =
                 validateUserRegistration(userName, email, password, confirmPassword)
 
-//            if (syntaxChecksResult) {
-//                auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-//                    val authenticatedUser = it.user!!
-//
-//                    val profileUpdates =
-//                        UserProfileChangeRequest.Builder().setPhotoUri(selectedImageURI)
-//                            .setDisplayName(userName).build()
-//
-//                    authenticatedUser.updateProfile(profileUpdates)
-//
-//                    UserModel.instance.addUser(
-//                        User(authenticatedUser.uid, userName), selectedImageURI!!
-//                    ) {
-//                        Toast.makeText(
-//                            this@SignUpActivity, "Register Successful", Toast.LENGTH_SHORT
-//                        ).show()
-//                        val intent = Intent(this@SignUpActivity, MainActivity::class.java)
-//                        startActivity(intent)
-//                        finish()
-//                    }
-//                }.addOnFailureListener {
-//                    Toast.makeText(
-//                        this@SignUpActivity, "Register Failed, " + it.message, Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
+            if (syntaxChecksResult) {
+                auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+                    val authenticatedUser = it.user!!
+
+                    val profileUpdates =
+                        UserProfileChangeRequest.Builder().setPhotoUri(selectedImageURI)
+                            .setDisplayName(userName).build()
+
+                    authenticatedUser.updateProfile(profileUpdates)
+
+                    UserModel.instance.addUser(
+                        User(authenticatedUser.uid, userName), selectedImageURI!!
+                    ) {
+                        Toast.makeText(
+                            this@SignUpActivity, "Register Successful", Toast.LENGTH_SHORT
+                        ).show()
+                        val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        this@SignUpActivity, "Register Failed, " + it.message, Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
