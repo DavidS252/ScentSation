@@ -19,7 +19,7 @@ object AppLocalDatabase {
             ?: throw IllegalStateException("Application context not available")
 
         Room.databaseBuilder(
-            context, AppLocalDbRepository::class.java, "foodie-finds"
-        ).fallbackToDestructiveMigration().build()
+                context, AppLocalDbRepository::class.java, "scentsation.db"
+            ).fallbackToDestructiveMigration(false).build()
     }
 }
