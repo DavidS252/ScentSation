@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scentsation.R
 import com.example.scentsation.data.post.Post
+import com.example.scentsation.data.post.PostModel
 import com.example.scentsation.ui.adapters.PostAdapter
 
 class HomeFragment : Fragment() {
@@ -45,14 +46,10 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun fetchPosts() {
-        // Replace with real Firebase or database logic
-        val dummyPosts = listOf(
-            Post("1", "JPG Blue", "1", "Description", false, "photo"),
-            Post("2", "Monclear", "2", "Description", false, "photo")
-        )
-
-        postList.clear()
-        postList.addAll(dummyPosts)
-        adapter.notifyDataSetChanged()
+        PostModel.instance.getPosts().observe(viewLifecycleOwner) { posts ->
+            postList.clear()
+            postList.addAll(posts)
+            adapter.notifyDataSetChanged()
+        }
     }
 }

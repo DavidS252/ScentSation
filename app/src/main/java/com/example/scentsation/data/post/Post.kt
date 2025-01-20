@@ -3,10 +3,26 @@ package com.example.scentsation.data.post
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import com.example.scentsation.ScentsationApp
+import com.google.common.reflect.TypeToken
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import com.google.gson.Gson
 
+class Converters {
+
+    @TypeConverter
+    fun fromList(value: List<String>?): String {
+        return Gson().toJson(value)
+    }
+
+    @TypeConverter
+    fun toList(value: String): List<String>? {
+        val listType = object : TypeToken<List<String>>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+}
 
 @Entity
 data class Post(
@@ -16,6 +32,7 @@ data class Post(
     val description: String,
     var isDeleted: Boolean = false,
     var photo: String? = null,
+    var aromas: List<String> = emptyList(),
     var timestamp: Long? = null,
 )  {
 
@@ -39,6 +56,7 @@ data class Post(
         const val USER_ID_KEY = "userId"
         const val LAST_UPDATED_KEY = "timestamp"
         const val DESCRIPTION_KEY = "description"
+        const val AROMAS_KEY = "aromas"
         const val IS_DELETED_KEY = "is_deleted"
         private const val POST_LAST_UPDATED = "post_last_updated"
 
@@ -46,6 +64,7 @@ data class Post(
             val id = json[ID_KEY] as? String ?: ""
             val fragranceName = json[FRAGRANCE_NAME_KEY] as? String ?: ""
             val description = json[DESCRIPTION_KEY] as? String ?: ""
+            val aromas = json[AROMAS_KEY] as? List<String> ?: emptyList()
             val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
             val userId = json[USER_ID_KEY] as? String ?: ""
 
@@ -68,6 +87,7 @@ data class Post(
                 USER_ID_KEY to userId,
                 LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
                 DESCRIPTION_KEY to description,
+                AROMAS_KEY to aromas,
                 IS_DELETED_KEY to isDeleted
             )
         }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Upload Photo -->
+            <ImageView
+                android:id="@+id/imageViewFragrance"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/cloud_upload_outline"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/upload_image" />
+
+            <Button
+                android:id="@+id/buttonUploadPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Photo"
+                android:layout_marginTop="8dp" />
+
+            <!-- Fragrance Name -->
+            <TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fragrance Name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextFragranceName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </TextInputLayout>
+
+            <!-- Description -->
+            <TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minLines="3"
+                    android:gravity="top" />
+            </TextInputLayout>
+
+            <!-- Aromas -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose Aromas"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewAromas"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/buttonSubmitPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Post"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

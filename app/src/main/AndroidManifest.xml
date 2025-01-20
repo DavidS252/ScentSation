@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ScentSation"
+        android:theme="@style/Base.Theme.ScentSation"
         android:name="com.example.scentsation.ScentsationApp"
         tools:targetApi="31">
         <activity

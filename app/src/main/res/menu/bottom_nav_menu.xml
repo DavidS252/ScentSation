@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_posts_black"
         android:title="@string/title_my_posts" />
     <item
+        android:id="@+id/nav_create_post"
+        android:icon="@drawable/new_box"
+        android:title="Create Post" />
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_account_circle"
         android:title="@string/title_profile" />

@@ -71,4 +71,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+    implementation(libs.kotlinx.metadata.jvm)
+    implementation(libs.gson)
+    implementation(libs.material.v190)
 }
