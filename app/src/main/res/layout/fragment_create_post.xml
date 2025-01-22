@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            tools:context=".AddReviewFragment">
+
+            <!-- Back Arrow Button -->
+            <ImageButton
+                android:id="@+id/backArrowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_black_arrow_back"
+                android:background="@null"
+                android:contentDescription="Back to Home"
+                android:layout_gravity="start"
+                android:padding="8dp" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Craft a Scent Story"
+                android:textSize="24sp"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:paddingBottom="16dp" />
+
+            <!-- Input Fragrance Name -->
+            <EditText
+                android:id="@+id/fragranceNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Fragrance Name"
+                android:background="@drawable/input_background"
+                android:padding="12dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Input Brand Name -->
+            <EditText
+                android:id="@+id/brandNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Brand Name"
+                android:background="@drawable/input_background"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Star Rating -->
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:numStars="5"
+                android:stepSize="1.0" />
+
+            <!-- Input Thoughts -->
+            <EditText
+                android:id="@+id/thoughtsField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="What are your thoughts on this perfume?"
+                android:gravity="top"
+                android:minHeight="100dp"
+                android:background="@drawable/input_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/uploadPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="upload an image of the fragrance"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerInside"
+                android:layout_gravity="center" />
+
+            <!-- Add Image of the Fragrance Button -->
+            <ImageView
+                android:id="@+id/addFragranceImageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_upload"
+                android:contentDescription="Add Photo"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:padding="8dp" />
+
+            <!-- Descriptive Tags -->
+            <TextView
+                android:id="@+id/describeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Describe the Smell in 3 Words"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:id="@+id/tagGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3">
+                <!-- Add Checkboxes for Tags -->
+                <CheckBox android:text="Sweet" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Mysterious" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Fresh" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Elegant" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Casual" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Strong" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Spicy" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Wild" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Aromatic" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Woody" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Citrusy" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Floral" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Musky" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Fruity" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <CheckBox android:text="Powdery" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </GridLayout>
+
+            <!-- Submit Button -->
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Review"
+                android:backgroundTint="@color/button"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

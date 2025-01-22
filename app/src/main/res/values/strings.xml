@@ -27,4 +27,6 @@
     <string name="log_out">Log Out</string>
     <string name="post_image">post image</string>
     <string name="no_posts_available">No posts available</string>
+    <string name="upload_image">Upload image of the fragrance</string>
+    <string name="text_choose_fragrance_picture">Choose the fragrance picture</string>
 </resources>

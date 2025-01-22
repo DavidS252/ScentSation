@@ -18,7 +18,7 @@ class PostAdapter(
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageView)
         val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
-        val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
+        val aromasTextView: TextView = itemView.findViewById(R.id.aromasTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -30,7 +30,7 @@ class PostAdapter(
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = postList[position]
         holder.nameTextView.text = post.fragranceName
-        holder.descriptionTextView.text = post.description
+        holder.aromasTextView.text = post.aromas.joinToString(", ")
         Glide.with(holder.itemView.context).load(post.photo).into(holder.imageView)
 
         holder.itemView.setOnClickListener { onPostClick(post) }
