@@ -12,7 +12,7 @@ import com.example.scentsation.data.post.PostDAO
 import com.example.scentsation.data.user.User
 import com.example.scentsation.data.user.UserDAO
 
-@Database(entities = [User::class, Post::class], version = 7, exportSchema = true)
+@Database(entities = [User::class, Post::class], version = 8, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class AppLocalDbRepository : RoomDatabase() {
     abstract fun userDao(): UserDAO

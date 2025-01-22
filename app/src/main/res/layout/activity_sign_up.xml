@@ -168,10 +168,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/button"
             android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textAllCaps="false"
             android:textAppearance="@android:style/TextAppearance.Material.Display1"
-            android:textAllCaps="false" />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
