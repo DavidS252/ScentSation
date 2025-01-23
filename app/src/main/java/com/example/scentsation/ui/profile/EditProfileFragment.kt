@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.scentsation.R
+import com.example.scentsation.databinding.FragmentEditProfileBinding
 import com.squareup.picasso.Picasso
 
 class EditProfileFragment : Fragment() {
