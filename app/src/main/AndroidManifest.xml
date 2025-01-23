@@ -18,6 +18,9 @@
         android:theme="@style/Base.Theme.ScentSation"
         tools:targetApi="31">
         <activity
+            android:name=".ui.profile.EditProfileViewModel"
+            android:exported="false" />
+        <activity
             android:name=".ui.profile.EditProfileFragment"
             android:exported="false" />
         <activity
