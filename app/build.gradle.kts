@@ -75,4 +75,5 @@ dependencies {
     implementation(libs.kotlinx.metadata.jvm)
     implementation(libs.gson)
     implementation(libs.material.v190)
+    implementation(libs.picasso)
 }
