@@ -76,3 +76,9 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.material.v190)
 }
+
+tasks.matching { it.name.startsWith("kaptGenerateStubs") }.configureEach {
+    dependsOn("generateSafeArgsDebug")
+    dependsOn("generateSafeArgsRelease")
+}
+

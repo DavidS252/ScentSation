@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation.xml"
     app:startDestination="@id/nav_home">
-
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.scentsation.ui.HomeFragment"
         android:label="Home" >
-        <action
-            android:id="@+id/action_home_to_postDetails"
-            app:destination="@id/nav_postDetails" />
+<!--        <action-->
+<!--            android:id="@+id/action_home_to_postDetails"-->
+<!--            app:destination="@id/nav_postDetails" />-->
         <action
             android:id="@+id/action_nav_home_to_nav_create_post"
             app:destination="@id/nav_create_post" />
@@ -20,12 +19,12 @@
         android:id="@+id/nav_create_post"
         android:name="com.example.scentsation.ui.CreatePostFragment"
         android:label="Create Post" />
-    <fragment
-        android:id="@+id/nav_postDetails"
-        android:label="Post Details">
-        <argument
-            android:name="postId"
-            app:argType="string" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/nav_postDetails"-->
+<!--        android:label="Post Details">-->
+<!--        <argument-->
+<!--            android:name="postId"-->
+<!--            app:argType="string" />-->
+<!--    </fragment>-->
 
 </navigation>
