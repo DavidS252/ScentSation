@@ -10,15 +10,17 @@ import com.example.scentsation.R
 import com.example.scentsation.data.post.Post
 import com.bumptech.glide.Glide
 
+
 class PostAdapter(
-    private val postList: List<Post>,
+    private val posts: List<Post>,
     private val onPostClick: (Post) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
-    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageView)
-        val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
-        val aromasTextView: TextView = itemView.findViewById(R.id.aromasTextView)
+    class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageView: ImageView = view.findViewById(R.id.imageView)
+        val fragranceName: TextView = view.findViewById(R.id.fragranceName)
+        val brandName: TextView = view.findViewById(R.id.brandName)
+        val rating: TextView = view.findViewById(R.id.rating)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -28,13 +30,21 @@ class PostAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = postList[position]
-        holder.nameTextView.text = post.fragranceName
-        holder.aromasTextView.text = post.aromas.joinToString(", ")
-        Glide.with(holder.itemView.context).load(post.photo).into(holder.imageView)
+        val post = posts[position]
 
-        holder.itemView.setOnClickListener { onPostClick(post) }
+        holder.fragranceName.text = post.fragranceName
+        holder.brandName.text = post.brandName
+        holder.rating.text = "Rating: ${post.fragranceRating}/5"
+
+        Glide.with(holder.imageView.context)
+            .load(post.photo)
+            .placeholder(R.drawable.ic_placeholder)
+            .into(holder.imageView)
+
+        holder.itemView.setOnClickListener {
+            onPostClick(post)
+        }
     }
 
-    override fun getItemCount() = postList.size
+    override fun getItemCount(): Int = posts.size
 }

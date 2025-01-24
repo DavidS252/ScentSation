@@ -13,12 +13,14 @@ import com.example.scentsation.R
 import com.example.scentsation.data.post.Post
 import com.example.scentsation.data.post.PostModel
 import com.example.scentsation.ui.adapters.PostAdapter
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
     private val postList = mutableListOf<Post>()
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +35,28 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Initialize adapter with dummy data
         adapter = PostAdapter(postList) { post ->
-            // Handle post click
-            val action = HomeFragmentDirections.actionHomeToPostDetails(post.id)
-            findNavController().navigate(action)
+            //val action = HomeFragmentDirections.actionHomeToPostDetails(post.id)
+            //findNavController().navigate(action)
         }
         recyclerView.adapter = adapter
 
         fetchPosts()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun fetchPosts() {
-        PostModel.instance.getPosts().observe(viewLifecycleOwner) { posts ->
-            postList.clear()
-            postList.addAll(posts)
-            adapter.notifyDataSetChanged()
-        }
+        db.collection("posts")
+            .get()
+            .addOnSuccessListener { result ->
+                postList.clear()
+                for (document in result) {
+                    val post = document.toObject(Post::class.java)
+                    postList.add(post)
+                }
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener {
+                // Handle the error
+            }
     }
 }
