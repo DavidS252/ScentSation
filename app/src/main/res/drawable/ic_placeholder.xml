@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Placeholder Circle -->
+    <path
+        android:fillColor="#D3D3D3"
+        android:pathData="M12,2A10,10 0 1,1 2,12A10,10 0 0,1 12,2z" />
+
+    <!-- Placeholder Icon (Image Outline) -->
+    <path
+        android:fillColor="#808080"
+        android:pathData="M4,6H20A2,2 0 0,1 22,8V16A2,2 0 0,1 20,18H4A2,2 0 0,1 2,16V8A2,2 0 0,1 4,6M4,8V16H20V8H4M12,14A2,2 0 1,1 10,12A2,2 0 0,1 12,14M6,16L10,11L13,14L18,9L20,11V16H6Z" />
+</vector>

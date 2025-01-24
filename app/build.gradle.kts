@@ -20,8 +20,25 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isZipAlignEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("boolean", "SAFE_ARGS_ENABLED", "false")
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        debug {
+            isDebuggable = true
+            isZipAlignEnabled = false
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -29,6 +46,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -79,4 +97,10 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.material.v190)
     implementation(libs.picasso)
+
+}
+
+tasks.matching { it.name.startsWith("kaptGenerateStubs") }.configureEach {
+    dependsOn("generateSafeArgsDebug")
+    dependsOn("generateSafeArgsRelease")
 }

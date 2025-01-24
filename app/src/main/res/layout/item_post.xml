@@ -9,42 +9,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="70dp"
-        tools:ignore="MissingConstraints">
+        android:padding="8dp">
 
-        <!-- Image Section -->
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="8dp"
-            android:scaleType="centerCrop" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_placeholder" />
 
-        <!-- Text Section -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
 
-            <!-- Name Section -->
             <TextView
-                android:id="@+id/nameTextView"
+                android:id="@+id/fragranceName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:text="Fragrance Name"
                 android:textStyle="bold"
-                android:paddingBottom="4dp"
-                android:textColor="@android:color/black" />
+                android:textSize="16sp" />
 
-            <!-- Aromas Section -->
             <TextView
-                android:id="@+id/aromasTextView"
+                android:id="@+id/brandName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Brand Name"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating: 4.5/5"
                 android:textSize="14sp"
-                android:paddingTop="4dp"
-                android:textColor="@android:color/darker_gray" />
+                android:layout_marginTop="4dp" />
         </LinearLayout>
     </LinearLayout>
 
