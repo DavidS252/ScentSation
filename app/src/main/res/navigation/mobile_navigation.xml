@@ -19,6 +19,34 @@
         android:id="@+id/nav_create_post"
         android:name="com.example.scentsation.ui.CreatePostFragment"
         android:label="Create Post" />
+    <fragment
+        android:id="@+id/nav_postDetails"
+        android:label="Post Details">
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.scentsation.ui.profile.ViewProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_view_profile">
+        <action
+            android:id="@+id/action_profile_to_MyPosts"
+            app:destination="@id/navigation_posts" />
+        <action
+            android:id="@+id/action_profile_to_editMyProfile"
+            app:destination="@id/editMyProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/editMyProfile"
+        android:name="com.example.scentsation.ui.profile.EditProfileFragment"
+        android:label="edit my profile"
+        tools:layout="@layout/fragment_edit_profile">
+        <action
+            android:id="@+id/action_editMyProfile_to_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 <!--    <fragment-->
 <!--        android:id="@+id/nav_postDetails"-->
 <!--        android:label="Post Details">-->

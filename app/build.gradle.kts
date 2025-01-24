@@ -54,6 +54,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 
     sourceSets {
         getByName("main") {
@@ -93,10 +96,11 @@ dependencies {
     implementation(libs.kotlinx.metadata.jvm)
     implementation(libs.gson)
     implementation(libs.material.v190)
+    implementation(libs.picasso)
+
 }
 
 tasks.matching { it.name.startsWith("kaptGenerateStubs") }.configureEach {
     dependsOn("generateSafeArgsDebug")
     dependsOn("generateSafeArgsRelease")
 }
-
