@@ -2,6 +2,7 @@ package com.example.scentsation.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.example.scentsation.data.post.Post
 import com.example.scentsation.data.post.PostModel
 import com.example.scentsation.ui.adapters.PostAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class HomeFragment : Fragment() {
 
@@ -49,11 +51,19 @@ class HomeFragment : Fragment() {
             .get()
             .addOnSuccessListener { result ->
                 postList.clear()
+                val storageRef = FirebaseStorage.getInstance().reference.child("images/posts")
+
                 for (document in result) {
                     val post = document.toObject(Post::class.java)
-                    postList.add(post)
+                    val imageRef = storageRef.child("${post.id}")
+
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        post.photo = uri.toString() // Update the post with the image URL
+                        postList.add(post)
+                        adapter.notifyDataSetChanged()
+                    }.addOnFailureListener {
+                    }
                 }
-                adapter.notifyDataSetChanged()
             }
             .addOnFailureListener {
                 // Handle the error

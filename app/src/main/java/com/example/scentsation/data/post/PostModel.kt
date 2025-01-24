@@ -56,9 +56,9 @@ class PostModel private constructor() {
                         }
                     }
 
-                    post.timestamp?.let {
-                        if (time < it) time = post.timestamp ?: System.currentTimeMillis()
-                    }
+//                    post.timestamp?.let {
+//                        if (time < it) time = post.timestamp ?: System.currentTimeMillis()
+//                    }
                     Post.lastUpdated = time
                 }
             }
