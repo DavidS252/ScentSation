@@ -9,6 +9,8 @@ import com.google.common.reflect.TypeToken
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
+import java.io.Serializable
+import kotlin.time.Duration.Companion.seconds
 
 class Converters {
 
@@ -26,17 +28,17 @@ class Converters {
 
 @Entity
 data class Post(
-    @PrimaryKey val id: String,
-    val fragranceName: String,
-    val brandName: String,
-    val fragranceRating: String,
-    val userId: String,
-    val description: String,
+    @PrimaryKey val id: String = "",
+    val fragranceName: String = "",
+    val brandName: String = "",
+    val fragranceRating: String = "",
+    val userId: String = "",
+    val description: String = "",
     var isDeleted: Boolean = false,
     var photo: String? = null,
     var aromas: List<String> = emptyList(),
-    var timestamp: Long? = null,
-)  {
+//    var timestamp: Long? = null,
+) : Serializable {
 
     companion object {
         var lastUpdated: Long
@@ -77,11 +79,10 @@ data class Post(
             val post = Post(id, fragranceName, brandName, fragranceRating, userId, description, isDeleted,
                 null, aromas)
 
-            val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp
-            timestamp?.let {
-                post.timestamp = it.seconds
-            }
-
+//            val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp
+//            timestamp?.let {
+//                post.timestamp = it.seconds
+//            }
             return post
         }
     }

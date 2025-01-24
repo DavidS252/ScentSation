@@ -20,7 +20,7 @@ class PostFirebaseModel {
 
     init {
         val settings = firestoreSettings {
-            setLocalCacheSettings(memoryCacheSettings { })
+            isPersistenceEnabled = true
         }
         db.firestoreSettings = settings
     }
