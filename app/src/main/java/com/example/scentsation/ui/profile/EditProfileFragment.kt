@@ -98,7 +98,7 @@ class EditProfileFragment : Fragment() {
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
             binding.editTextEditUserName.setText(user.userName)
-            binding.editProfileTitleTextView.text = "@${user.userName}"
+            binding.editProfileTitleTextView.text = "${user.userName}"
         }
 
         viewModel.selectedImageURI.observe(viewLifecycleOwner) { uri ->
