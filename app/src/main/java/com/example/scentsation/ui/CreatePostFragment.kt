@@ -15,7 +15,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresExtension
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.scentsation.R
+import com.example.scentsation.data.brand.Brand
+import com.example.scentsation.data.fragrance.Fragrance
 import com.example.scentsation.data.post.Post
 import com.example.scentsation.data.post.PostModel
 import com.google.android.material.button.MaterialButton
@@ -29,8 +32,11 @@ class CreatePostFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private lateinit var fragranceName: EditText
-    private lateinit var brandName: EditText
+    private lateinit var brandSpinner: Spinner
+    private lateinit var fragranceSpinner: Spinner
+    private lateinit var brandList: List<Brand>
+    private var selectedBrand: Brand? = null
+    private var fragrances: List<Fragrance> = emptyList()
     private lateinit var ratingBar: RatingBar
     private lateinit var thoughtsField: EditText
     private lateinit var addPhotoImageView: ImageView
@@ -67,16 +73,14 @@ class CreatePostFragment : Fragment() {
         val settings = db.firestoreSettings
         db.firestoreSettings = settings
 
-        fragranceName = view.findViewById(R.id.fragranceNameField)
-        brandName = view.findViewById(R.id.brandNameField)
+        brandSpinner = view.findViewById(R.id.brandSpinner)
+        fragranceSpinner = view.findViewById(R.id.fragranceSpinner)
         ratingBar = view.findViewById(R.id.ratingBar)
         thoughtsField = view.findViewById(R.id.thoughtsField)
         addPhotoImageView = view.findViewById<ImageView>(R.id.addFragranceImageButton)
         tagGrid = view.findViewById(R.id.tagGrid)
 
-        addPhotoImageView.setOnClickListener {
-            openGallery()
-        }
+        loadBrands()
 
         view.findViewById<Button>(R.id.submitButton).setOnClickListener {
             uploadPost()
@@ -85,73 +89,88 @@ class CreatePostFragment : Fragment() {
         return view
     }
 
-    @RequiresExtension(extension = Build.VERSION_CODES.R, version = 2)
-    private fun openGallery() {
-            val intent = Intent(MediaStore.ACTION_PICK_IMAGES)
-            println(intent)
-            imageSelectionCallBack.launch(intent)
-    }
-
     private fun uploadPost() {
-        val perfumeName = fragranceName.text.toString().trim()
-        val perfumeBrand = brandName.text.toString().trim()
+        if (fragrances.isEmpty()) {
+            Toast.makeText(requireContext(), "No fragrances available. Please try again later.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val selectedFragranceIndex = fragranceSpinner.selectedItemPosition
+        if (selectedFragranceIndex == Spinner.INVALID_POSITION) {
+            Toast.makeText(requireContext(), "Please select a fragrance.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val selectedFragrance = fragrances[selectedFragranceIndex]
         val rating = ratingBar.rating
         val thoughts = thoughtsField.text.toString().trim()
         val tags = getSelectedTags()
-//        val userId = auth.currentUser?.uid
-//        val imageURI = selectedImageURI.toString()
+        val postId = UUID.randomUUID().toString()
 
-        if (perfumeName.isEmpty() || perfumeBrand.isEmpty() || tags.size < 3 || selectedImageURI == null) {
+        if (tags.size < 3 || selectedFragrance == null || rating == 0f || thoughts.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill all fields and select an image", Toast.LENGTH_SHORT).show()
             return
-        }
-
-        val postId = UUID.randomUUID().toString()
-        val newPost = auth.currentUser?.let {
-            Post(postId, perfumeName, perfumeBrand, rating.toString(), it.uid, thoughts)
-        }
-
-        if (newPost != null) {
-            PostModel.instance.addPost(
-                newPost,
-                selectedImageURI!!
-            ) {
-                Toast.makeText(requireContext(), "Post added successfully!", Toast.LENGTH_SHORT).show()
-                requireActivity().supportFragmentManager.popBackStack()
+        } else {
+            val newPost = auth.currentUser?.let {
+                Post(postId, selectedFragrance.id, rating.toString(), it.uid, thoughts)
+            }
+            if (newPost != null) {
+                PostModel.instance.addPost(newPost) {
+                    Toast.makeText(requireContext(), "Post added successfully!", Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
             }
         }
+    }
 
+    private fun loadBrands() {
+        db.collection("brands").get().addOnSuccessListener { result ->
+            brandList = result.map { document ->
+                document.toObject(Brand::class.java).apply { id = document.id }
+            }
 
-        // Upload image to Firebase Storage
-//        val storageRef = storage.reference.child("posts/${UUID.randomUUID()}.jpg")
-//        selectedImageURI?.let { imageUri ->
-//            storageRef.putFile(imageUri)
-//                .addOnSuccessListener { task ->
-//                    storageRef.downloadUrl.addOnSuccessListener { imageUrl ->
-//                        // Save post to Firestore
-//                        val post = hashMapOf(
-//                            "fragranceName" to perfumeName,
-//                            "brandName" to perfumeBrand,
-//                            "rating" to rating,
-//                            "thoughts" to thoughts,
-//                            "tags" to tags,
-//                            "imageUrl" to imageUrl.toString(),
-//                            "userId" to userId,
-//                            "timestamp" to System.currentTimeMillis()
-//                        )
-//
-//                        db.collection("posts")
-//                            .add(post)
-//                            .addOnSuccessListener {
-//                                Toast.makeText(requireContext(), "Post added successfully!", Toast.LENGTH_SHORT).show()
-//                                requireActivity().supportFragmentManager.popBackStack()
-//                            }
-//                            .addOnFailureListener {
-//                                Toast.makeText(requireContext(), "Failed to add post", Toast.LENGTH_SHORT).show()
-//                            }
-//                    }
-//                }
-//        }
+            val brandNames = brandList.map { it.brandName }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, brandNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            brandSpinner.adapter = adapter
+
+            brandSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    selectedBrand = brandList[position]
+                    loadFragrances(selectedBrand!!.id)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        }
+    }
+
+    private fun loadFragrances(brandId: String) {
+        db.collection("fragrances").whereEqualTo("brandId", brandId).get()
+            .addOnSuccessListener { result ->
+                fragrances = result.map { it.toObject(Fragrance::class.java) }
+
+                if (fragrances.isEmpty()) {
+                    Toast.makeText(requireContext(), "No fragrances available for the selected brand.", Toast.LENGTH_SHORT).show()
+                }
+
+                val fragranceNames = fragrances.map { it.fragranceName }
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fragranceNames)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                fragranceSpinner.adapter = adapter
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to load fragrances.", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // Display the selected fragrance's image in the UI
+    private fun updateFragranceImage(photoUrl: String) {
+        val imageView = view?.findViewById<ImageView>(R.id.addFragranceImageButton)
+        if (imageView != null) {
+            Glide.with(requireContext())
+                .load(photoUrl)
+                .placeholder(R.drawable.fragrance_image_placeholder)
+                .into(imageView)
+        }
     }
 
     private fun getSelectedTags(): List<String> {

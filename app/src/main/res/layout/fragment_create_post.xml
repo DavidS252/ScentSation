@@ -39,25 +39,21 @@
                 android:textStyle="bold"
                 android:paddingBottom="16dp" />
 
-            <!-- Input Fragrance Name -->
-            <EditText
-                android:id="@+id/fragranceNameField"
+            <!-- Dropdown for Brand -->
+            <Spinner
+                android:id="@+id/brandSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Fragrance Name"
-                android:background="@drawable/input_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:spinnerMode="dropdown" />
 
-            <!-- Input Brand Name -->
-            <EditText
-                android:id="@+id/brandNameField"
+            <!-- Dropdown for Fragrance -->
+            <Spinner
+                android:id="@+id/fragranceSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Brand Name"
-                android:background="@drawable/input_background"
-                android:padding="12dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:spinnerMode="dropdown" />
 
             <!-- Star Rating -->
             <RatingBar

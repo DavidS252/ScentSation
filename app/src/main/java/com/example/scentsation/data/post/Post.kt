@@ -6,11 +6,9 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.example.scentsation.ScentsationApp
 import com.google.common.reflect.TypeToken
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
 import java.io.Serializable
-import kotlin.time.Duration.Companion.seconds
 
 class Converters {
 
@@ -29,15 +27,13 @@ class Converters {
 @Entity
 data class Post(
     @PrimaryKey val id: String = "",
-    val fragranceName: String = "",
-    val brandName: String = "",
+    val fragranceId: String = "",
     val fragranceRating: String = "",
     val userId: String = "",
     val description: String = "",
     var isDeleted: Boolean = false,
     var photo: String? = null,
-    var aromas: List<String> = emptyList(),
-//    var timestamp: Long? = null,
+    var aromas: List<String> = emptyList()
 ) : Serializable {
 
     companion object {
@@ -56,7 +52,7 @@ data class Post(
             }
 
         const val ID_KEY = "id"
-        const val FRAGRANCE_NAME_KEY = "fragranceName"
+        const val FRAGRANCE_ID_KEY = "fragranceId"
         const val BRAND_NAME_KEY = "brandName"
         const val FRAGRANCE_RATING_KEY = "fragranceRating"
         const val USER_ID_KEY = "userId"
@@ -68,21 +64,15 @@ data class Post(
 
         fun fromJSON(json: Map<String, Any>): Post {
             val id = json[ID_KEY] as? String ?: ""
-            val fragranceName = json[FRAGRANCE_NAME_KEY] as? String ?: ""
-            val brandName = json[BRAND_NAME_KEY] as? String ?: ""
+            val fragranceId = json[FRAGRANCE_ID_KEY] as? String ?: ""
             val fragranceRating = json[FRAGRANCE_RATING_KEY] as? String ?: ""
             val description = json[DESCRIPTION_KEY] as? String ?: ""
             val aromas = json[AROMAS_KEY] as? List<String> ?: emptyList()
             val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
             val userId = json[USER_ID_KEY] as? String ?: ""
 
-            val post = Post(id, fragranceName, brandName, fragranceRating, userId, description, isDeleted,
+            val post = Post(id, fragranceId, fragranceRating, userId, description, isDeleted,
                 null, aromas)
-
-//            val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp
-//            timestamp?.let {
-//                post.timestamp = it.seconds
-//            }
             return post
         }
     }
@@ -91,8 +81,7 @@ data class Post(
         get() {
             return hashMapOf(
                 ID_KEY to id,
-                FRAGRANCE_NAME_KEY to fragranceName,
-                BRAND_NAME_KEY to brandName,
+                FRAGRANCE_ID_KEY to fragranceId,
                 FRAGRANCE_RATING_KEY to fragranceRating,
                 LAST_UPDATED_KEY to FieldValue.serverTimestamp(),
                 DESCRIPTION_KEY to description,

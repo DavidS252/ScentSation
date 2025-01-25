@@ -55,10 +55,6 @@ class PostModel private constructor() {
                             database.postDao().insert(post)
                         }
                     }
-
-//                    post.timestamp?.let {
-//                        if (time < it) time = post.timestamp ?: System.currentTimeMillis()
-//                    }
                     Post.lastUpdated = time
                 }
             }
@@ -66,12 +62,10 @@ class PostModel private constructor() {
         }
     }
 
-    fun addPost(post: Post, selectedImageUri: Uri, callback: () -> Unit) {
+    fun addPost(post: Post, callback: () -> Unit) {
         firebaseModel.addPost(post) {
-            firebaseModel.addPostImage(post.id, selectedImageUri) {
-                refreshPosts()
-                callback()
-            }
+            refreshPosts()
+            callback()
         }
     }
 
@@ -84,13 +78,6 @@ class PostModel private constructor() {
 
     fun updatePost(post: Post?, callback: () -> Unit) {
         firebaseModel.updatePost(post) {
-            refreshPosts()
-            callback()
-        }
-    }
-
-    fun updatePostImage(postId: String, selectedImageUri: Uri, callback: () -> Unit) {
-        firebaseModel.addPostImage(postId, selectedImageUri) {
             refreshPosts()
             callback()
         }

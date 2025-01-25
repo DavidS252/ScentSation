@@ -6,7 +6,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.firestoreSettings
-import com.google.firebase.firestore.memoryCacheSettings
 import com.google.firebase.storage.storage
 
 class PostFirebaseModel {
@@ -16,6 +15,7 @@ class PostFirebaseModel {
 
     companion object {
         const val POSTS_COLLECTION_PATH = "posts"
+        const val FRAGRANCES_COLLECTION_PATH = "fragrances"
     }
 
     init {
@@ -46,7 +46,7 @@ class PostFirebaseModel {
     }
 
     fun getImage(imageId: String, callback: (Uri) -> Unit) {
-        storage.reference.child("images/$POSTS_COLLECTION_PATH/$imageId")
+        storage.reference.child("images/$FRAGRANCES_COLLECTION_PATH/$imageId")
             .downloadUrl
             .addOnSuccessListener { uri ->
                 callback(uri)
@@ -58,15 +58,6 @@ class PostFirebaseModel {
             .addOnSuccessListener {
                 callback()
             }
-    }
-
-    fun addPostImage(postId: String, selectedImageUri: Uri, callback: () -> Unit) {
-        val imageRef = storage.reference.child("images/$POSTS_COLLECTION_PATH/${postId}")
-        imageRef.putFile(selectedImageUri).addOnSuccessListener {
-            callback()
-        }.addOnFailureListener { it ->
-            Log.e("", it.message.toString())
-        }
     }
 
     fun deletePost(post: Post?, callback: () -> Unit) {
