@@ -23,7 +23,7 @@ class FragranceModel private constructor() {
         return fragrances ?: database.fragranceDao().getFragrances()
     }
 
-    fun getPostImage(imageId: String, callback: (Uri) -> Unit) {
+    fun getFragranceImage(imageId: String, callback: (Uri) -> Unit) {
         firebaseModel.getImage(imageId, callback);
     }
 }

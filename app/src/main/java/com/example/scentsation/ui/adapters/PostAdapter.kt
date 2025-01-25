@@ -9,10 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scentsation.R
 import com.example.scentsation.data.post.Post
 import com.bumptech.glide.Glide
+import com.example.scentsation.data.brand.Brand
+import com.example.scentsation.data.fragrance.Fragrance
 
 
 class PostAdapter(
     private val posts: List<Post>,
+    private val fragranceMap: Map<String, Fragrance>,
+    private val brandMap: Map<String, Brand>,
     private val onPostClick: (Post) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
@@ -31,15 +35,24 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
+        val fragrance = fragranceMap[post.fragranceId]
+        val brand = fragrance?.let { brandMap[it.brandId] }
 
-        holder.fragranceName.text = post.fragranceName
-        holder.brandName.text = post.brandName
+        // Bind data to views
+        if (fragrance != null) {
+            holder.fragranceName.text = fragrance.fragranceName
+        }
+        if (brand != null) {
+            holder.brandName.text = brand.brandName
+        }
         holder.rating.text = "Rating: ${post.fragranceRating}/5"
 
-        Glide.with(holder.imageView.context)
-            .load(post.photo)
-            .placeholder(R.drawable.ic_placeholder)
-            .into(holder.imageView)
+        if (fragrance != null) {
+            Glide.with(holder.imageView.context)
+                .load(fragrance.photoUrl)
+                .placeholder(R.drawable.ic_placeholder)
+                .into(holder.imageView)
+        }
 
         holder.itemView.setOnClickListener {
             onPostClick(post)

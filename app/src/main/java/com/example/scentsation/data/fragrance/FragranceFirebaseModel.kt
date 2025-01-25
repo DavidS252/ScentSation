@@ -13,7 +13,7 @@ class FragranceFirebaseModel {
     private val storage = Firebase.storage
 
     companion object {
-        const val FRAGRANCES_COLLECTION_PATH = "fragrance"
+        const val FRAGRANCES_COLLECTION_PATH = "fragrances"
     }
 
     init {

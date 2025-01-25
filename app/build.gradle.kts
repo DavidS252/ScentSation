@@ -6,6 +6,15 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
+androidComponents {
+    beforeVariants { variantBuilder ->
+        // Disable release variants
+        if (variantBuilder.buildType == "debug") {
+            variantBuilder.enable = false
+        }
+    }
+}
+
 android {
     namespace = "com.example.scentsation"
     compileSdk = 35
@@ -80,4 +89,17 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.material.v190)
     implementation(libs.picasso)
+}
+
+tasks.matching { it.name.startsWith("kaptGenerateStubs") }.configureEach {
+    dependsOn("generateSafeArgsRelease")
+    mustRunAfter("generateSafeArgsRelease")
+}
+tasks.whenTaskAdded {
+    if (name.contains("generateSafeArgsRelease")) {
+        enabled = true // Disable Safe Args for release
+    }
+    if (name.contains("generateSafeArgsDebug")) {
+        enabled = false // Enable Safe Args for debug
+    }
 }

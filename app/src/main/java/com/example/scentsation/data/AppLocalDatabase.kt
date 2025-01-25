@@ -13,11 +13,12 @@ import com.example.scentsation.data.user.User
 import com.example.scentsation.data.user.UserDAO
 import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.brand.BrandDAO
+import com.example.scentsation.data.brand.FragranceConverters
 import com.example.scentsation.data.fragrance.Fragrance
 import com.example.scentsation.data.fragrance.FragranceDAO
 
 @Database(entities = [User::class, Post::class, Brand::class, Fragrance::class], version = 10, exportSchema = true)
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class, FragranceConverters :: class)
 abstract class AppLocalDbRepository : RoomDatabase() {
     abstract fun userDao(): UserDAO
     abstract fun postDao(): PostDAO
