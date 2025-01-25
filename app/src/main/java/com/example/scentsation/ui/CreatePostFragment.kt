@@ -29,8 +29,10 @@ class CreatePostFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private lateinit var fragranceName: EditText
-    private lateinit var brandName: EditText
+    private lateinit var brandSpinner: Spinner
+    private lateinit var fragranceSpinner: Spinner
+    private lateinit var brandList: List<Brand>
+    private var selectedBrand: Brand? = null
     private lateinit var ratingBar: RatingBar
     private lateinit var thoughtsField: EditText
     private lateinit var addPhotoImageView: ImageView

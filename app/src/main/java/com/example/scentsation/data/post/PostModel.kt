@@ -55,10 +55,6 @@ class PostModel private constructor() {
                             database.postDao().insert(post)
                         }
                     }
-
-//                    post.timestamp?.let {
-//                        if (time < it) time = post.timestamp ?: System.currentTimeMillis()
-//                    }
                     Post.lastUpdated = time
                 }
             }

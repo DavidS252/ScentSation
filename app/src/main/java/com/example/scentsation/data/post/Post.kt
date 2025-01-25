@@ -6,11 +6,9 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.example.scentsation.ScentsationApp
 import com.google.common.reflect.TypeToken
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.gson.Gson
 import java.io.Serializable
-import kotlin.time.Duration.Companion.seconds
 
 class Converters {
 
@@ -36,8 +34,7 @@ data class Post(
     val description: String = "",
     var isDeleted: Boolean = false,
     var photo: String? = null,
-    var aromas: List<String> = emptyList(),
-//    var timestamp: Long? = null,
+    var aromas: List<String> = emptyList()
 ) : Serializable {
 
     companion object {
@@ -78,11 +75,6 @@ data class Post(
 
             val post = Post(id, fragranceName, brandName, fragranceRating, userId, description, isDeleted,
                 null, aromas)
-
-//            val timestamp: Timestamp? = json[LAST_UPDATED_KEY] as? Timestamp
-//            timestamp?.let {
-//                post.timestamp = it.seconds
-//            }
             return post
         }
     }
