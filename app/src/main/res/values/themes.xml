@@ -2,6 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ScentSation" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="android:statusBarColor">#DC143C</item>
+        <item name="colorPrimary">#DC143C</item>
+        <item name="colorPrimaryDark">#DC143C</item>
     </style>
 
     <style name="Theme.ScentSation" parent="Base.Theme.ScentSation" />

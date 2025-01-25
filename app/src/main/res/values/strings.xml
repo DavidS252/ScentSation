@@ -23,6 +23,7 @@
     <string name="select_image">selectImage</string>
     <string name="text_edit_profile_pic">Edit profile image</string>
     <string name="save">Save</string>
+    <string name="title_create_post">Create Post</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="log_out">Log Out</string>
     <string name="post_image">post image</string>
