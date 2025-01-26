@@ -11,7 +11,7 @@
     <item
         android:id="@+id/nav_create_post"
         android:icon="@drawable/new_box"
-        android:title="Create Post" />
+        android:title="@string/title_create_post" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_account_circle"
