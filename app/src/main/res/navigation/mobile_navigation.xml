@@ -16,6 +16,15 @@
             app:destination="@id/nav_create_post" />
     </fragment>
     <fragment
+        android:id="@+id/navigation_posts"
+        android:name="com.example.scentsation.ui.MyPostsFragment"
+        android:label="My Posts"
+        tools:layout="@layout/item_post">
+        <action
+            android:id="@+id/action_home_to_create_post"
+            app:destination="@id/nav_create_post" />
+    </fragment>
+    <fragment
         android:id="@+id/nav_create_post"
         android:name="com.example.scentsation.ui.CreatePostFragment"
         android:label="Create Post" />
