@@ -30,4 +30,6 @@
     <string name="no_posts_available">No posts available</string>
     <string name="upload_image">Upload image of the fragrance</string>
     <string name="text_choose_fragrance_picture">Choose the fragrance picture</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
