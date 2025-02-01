@@ -1,5 +1,6 @@
 package com.example.scentsation.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import com.example.scentsation.data.post.Post
 import com.bumptech.glide.Glide
 import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.fragrance.Fragrance
+import com.google.firebase.storage.FirebaseStorage
 
 
 class PostAdapter(
@@ -48,14 +50,32 @@ class PostAdapter(
         holder.rating.text = "Rating: ${post.fragranceRating}/5"
 
         if (fragrance != null) {
-            Glide.with(holder.imageView.context)
-                .load(fragrance.photoUrl)
-                .placeholder(R.drawable.ic_placeholder)
-                .into(holder.imageView)
+            fragrance.photoUrl?.let {
+                getPublicImageUrl(it) { httpsUrl ->
+                    Glide.with(holder.imageView.context)
+                        .load(httpsUrl ?: R.drawable.ic_placeholder) // Load placeholder if URL retrieval fails
+                        .into(holder.imageView)
+                }
+            }
         }
 
         holder.itemView.setOnClickListener {
             onPostClick(post)
+        }
+    }
+
+    private fun getPublicImageUrl(gsUrl: String, callback: (String?) -> Unit) {
+        try {
+            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(gsUrl)
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                callback(uri.toString()) // Return the valid public URL
+            }.addOnFailureListener { e ->
+                Log.e("FirebaseStorage", "Failed to get public URL: ${e.message}")
+                callback(null) // Return null if failed
+            }
+        } catch (e: Exception) {
+            Log.e("FirebaseStorage", "Invalid storage reference: ${e.message}")
+            callback(null)
         }
     }
 

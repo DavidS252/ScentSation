@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -99,6 +100,7 @@ class CreatePostFragment : Fragment() {
             Toast.makeText(requireContext(), "Please select a fragrance.", Toast.LENGTH_SHORT).show()
             return
         }
+
         val selectedFragrance = fragrances[selectedFragranceIndex]
         val rating = ratingBar.rating
         val thoughts = thoughtsField.text.toString().trim()
