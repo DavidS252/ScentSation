@@ -10,7 +10,7 @@ import com.example.scentsation.ui.posts.PostViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MyPostsFragment : PostsListFragment() {
-    private val db = FirebaseFirestore.getInstance()
+
     private val viewModel by activityViewModels<PostViewModel>()
 
     override fun onCreateView(

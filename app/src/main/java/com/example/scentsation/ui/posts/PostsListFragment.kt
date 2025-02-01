@@ -13,6 +13,7 @@ import com.example.scentsation.R
 import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.fragrance.Fragrance
 import com.example.scentsation.data.post.Post
+import com.example.scentsation.data.post.PostModel
 import com.example.scentsation.ui.adapters.PostAdapter
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -51,6 +52,7 @@ open class PostsListFragment : Fragment() {
     }
 
     private fun fetchFragrancesAndBrands() {
+        //PostModel.instance.getPosts()
         db.collection("brands").get()
             .addOnSuccessListener { brandResult ->
                 brandMap.clear()
