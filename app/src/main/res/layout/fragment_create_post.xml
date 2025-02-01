@@ -107,7 +107,7 @@
                 android:layout_marginBottom="8dp" />
 
             <GridLayout
-                android:id="@+id/tagGrid"
+                android:id="@+id/aromaGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="3">

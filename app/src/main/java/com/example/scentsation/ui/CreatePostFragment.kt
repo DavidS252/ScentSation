@@ -41,7 +41,7 @@ class CreatePostFragment : Fragment() {
     private lateinit var ratingBar: RatingBar
     private lateinit var thoughtsField: EditText
     private lateinit var addPhotoImageView: ImageView
-    private lateinit var tagGrid: GridLayout
+    private lateinit var aromaGrid: GridLayout
     private var selectedImageURI: Uri? = null
 
     private val imageSelectionCallBack = registerForActivityResult(
@@ -79,7 +79,7 @@ class CreatePostFragment : Fragment() {
         ratingBar = view.findViewById(R.id.ratingBar)
         thoughtsField = view.findViewById(R.id.thoughtsField)
         addPhotoImageView = view.findViewById<ImageView>(R.id.addFragranceImageButton)
-        tagGrid = view.findViewById(R.id.tagGrid)
+        aromaGrid = view.findViewById(R.id.aromaGrid)
 
         loadBrands()
 
@@ -104,15 +104,16 @@ class CreatePostFragment : Fragment() {
         val selectedFragrance = fragrances[selectedFragranceIndex]
         val rating = ratingBar.rating
         val thoughts = thoughtsField.text.toString().trim()
-        val tags = getSelectedTags()
+        val aromas = getSelectedTags()
         val postId = UUID.randomUUID().toString()
 
-        if (tags.size < 3 || selectedFragrance == null || rating == 0f || thoughts.isEmpty()) {
+        if (aromas.size < 3 || rating == 0f || thoughts.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill all fields and select an image", Toast.LENGTH_SHORT).show()
             return
         } else {
             val newPost = auth.currentUser?.let {
-                Post(postId, selectedFragrance.id, rating.toString(), it.uid, thoughts)
+                Post(postId, selectedFragrance.id, rating.toString(), it.uid, thoughts,
+                    false, selectedImageURI.toString(), aromas)
             }
             if (newPost != null) {
                 PostModel.instance.addPost(newPost) {
@@ -177,12 +178,13 @@ class CreatePostFragment : Fragment() {
 
     private fun getSelectedTags(): List<String> {
         val tags = mutableListOf<String>()
-        for (i in 0 until tagGrid.childCount) {
-            val checkBox = tagGrid.getChildAt(i) as CheckBox
+        for (i in 0 until aromaGrid.childCount) {
+            val checkBox = aromaGrid.getChildAt(i) as CheckBox
             if (checkBox.isChecked) {
                 tags.add(checkBox.text.toString())
             }
         }
+        Log.d("Selected Tags", tags.toString())
         return tags
     }
 }
