@@ -12,23 +12,24 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresExtension
-import androidx.appcompat.app.AppCompatActivity
 import com.example.scentsation.R
+import com.example.scentsation.ui.MainActivity
+import com.example.scentsation.ui.login.LoginActivity
 import com.example.scentsation.data.user.User
 import com.example.scentsation.data.user.UserModel
-import com.example.scentsation.ui.login.LoginActivity
-import com.example.scentsation.ui.MainActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Firebase
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : ComponentActivity() {
+
     private lateinit var imageSelectionCallBack: ActivityResultLauncher<Intent>
     private var selectedImageURI: Uri? = null
     private lateinit var userNameInputLayout: TextInputLayout
@@ -174,7 +175,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun defineImageSelectionCallBack() {
         imageSelectionCallBack = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
+            StartActivityForResult()
         ) { result: ActivityResult ->
             try {
                 val imageUri: Uri? = result.data?.data

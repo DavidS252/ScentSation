@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.material.v190)
     implementation(libs.picasso)
+    implementation("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0")
 }
 
 tasks.matching { it.name.startsWith("kaptGenerateStubs") }.configureEach {
