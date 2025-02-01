@@ -55,6 +55,17 @@
                 android:layout_marginBottom="16dp"
                 android:spinnerMode="dropdown" />
 
+            <!-- Add Image of the Fragrance -->
+            <ImageView
+                android:id="@+id/addFragranceImageButton"
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:src="@drawable/ic_upload"
+                android:contentDescription="Add Photo"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:padding="8dp" />
+
             <!-- Star Rating -->
             <RatingBar
                 android:id="@+id/ratingBar"
@@ -75,27 +86,6 @@
                 android:background="@drawable/input_background"
                 android:padding="12dp"
                 android:layout_marginTop="16dp" />
-
-            <TextView
-                android:id="@+id/uploadPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="upload an image of the fragrance"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:scaleType="centerInside"
-                android:layout_gravity="center" />
-
-            <!-- Add Image of the Fragrance Button -->
-            <ImageView
-                android:id="@+id/addFragranceImageButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_upload"
-                android:contentDescription="Add Photo"
-                android:layout_gravity="center"
-                android:scaleType="centerInside"
-                android:padding="8dp" />
 
             <!-- Descriptive Tags -->
             <TextView

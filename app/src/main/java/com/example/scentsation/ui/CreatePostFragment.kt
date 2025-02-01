@@ -71,9 +71,6 @@ class CreatePostFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        val settings = db.firestoreSettings
-        db.firestoreSettings = settings
-
         brandSpinner = view.findViewById(R.id.brandSpinner)
         fragranceSpinner = view.findViewById(R.id.fragranceSpinner)
         ratingBar = view.findViewById(R.id.ratingBar)
@@ -159,6 +156,16 @@ class CreatePostFragment : Fragment() {
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fragranceNames)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 fragranceSpinner.adapter = adapter
+
+                // Set listener for fragrance selection
+                fragranceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        val selectedFragrance = fragrances[position]
+                        selectedFragrance.photoUrl?.let { updateFragranceImage(it) }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
             }
             .addOnFailureListener {
                 Toast.makeText(requireContext(), "Failed to load fragrances.", Toast.LENGTH_SHORT).show()
@@ -169,10 +176,28 @@ class CreatePostFragment : Fragment() {
     private fun updateFragranceImage(photoUrl: String) {
         val imageView = view?.findViewById<ImageView>(R.id.addFragranceImageButton)
         if (imageView != null) {
-            Glide.with(requireContext())
-                .load(photoUrl)
-                .placeholder(R.drawable.fragrance_image_placeholder)
-                .into(imageView)
+            getPublicImageUrl(photoUrl) { httpsUrl ->
+                Glide.with(requireContext())
+                    .load(
+                        httpsUrl ?: R.drawable.ic_placeholder
+                    ) // Load placeholder if URL retrieval fails
+                    .into(imageView)
+            }
+        }
+    }
+
+    private fun getPublicImageUrl(gsUrl: String, callback: (String?) -> Unit) {
+        try {
+            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(gsUrl)
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                callback(uri.toString()) // Return the valid public URL
+            }.addOnFailureListener { e ->
+                Log.e("FirebaseStorage", "Failed to get public URL: ${e.message}")
+                callback(null) // Return null if failed
+            }
+        } catch (e: Exception) {
+            Log.e("FirebaseStorage", "Invalid storage reference: ${e.message}")
+            callback(null)
         }
     }
 
