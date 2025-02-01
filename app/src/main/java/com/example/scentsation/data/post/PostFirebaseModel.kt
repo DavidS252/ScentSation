@@ -22,7 +22,6 @@ class PostFirebaseModel {
         val settings = firestoreSettings {
             isPersistenceEnabled = true
         }
-        db.firestoreSettings = settings
     }
 
 

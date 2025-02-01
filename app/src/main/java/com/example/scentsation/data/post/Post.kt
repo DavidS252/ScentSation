@@ -53,7 +53,6 @@ data class Post(
 
         const val ID_KEY = "id"
         const val FRAGRANCE_ID_KEY = "fragranceId"
-        const val BRAND_NAME_KEY = "brandName"
         const val FRAGRANCE_RATING_KEY = "fragranceRating"
         const val USER_ID_KEY = "userId"
         const val LAST_UPDATED_KEY = "timestamp"
