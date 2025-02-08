@@ -1,12 +1,8 @@
-package com.example.scentsation.ui
+package com.example.scentsation.ui.posts
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.media.Image
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresExtension
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.scentsation.R
@@ -22,7 +17,6 @@ import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.fragrance.Fragrance
 import com.example.scentsation.data.post.Post
 import com.example.scentsation.data.post.PostModel
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
