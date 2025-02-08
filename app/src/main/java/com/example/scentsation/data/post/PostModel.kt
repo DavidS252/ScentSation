@@ -31,9 +31,9 @@ class PostModel private constructor() {
         return posts ?: database.postDao().getPosts()
     }
 
-    fun getMyPosts(): LiveData<MutableList<Post>> {
+    fun getMyPosts(userId : String?): LiveData<MutableList<Post>> {
         refreshPosts()
-        return posts ?: database.postDao().getPostsByUserId(Firebase.auth.currentUser?.uid!!)
+        return posts ?: database.postDao().getPostsByUserId(userId)
     }
 
     private fun refreshPosts() {
@@ -81,9 +81,5 @@ class PostModel private constructor() {
             refreshPosts()
             callback()
         }
-    }
-
-    fun getPostImage(imageId: String, callback: (Uri) -> Unit) {
-        firebaseModel.getImage(imageId, callback);
     }
 }
