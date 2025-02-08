@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scentsation.R
@@ -14,13 +15,16 @@ import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.fragrance.Fragrance
 import com.example.scentsation.data.post.Post
 import com.example.scentsation.data.post.PostModel
+import com.example.scentsation.databinding.FragmentPostsListBinding
 import com.example.scentsation.ui.adapters.PostAdapter
+import com.example.scentsation.ui.posts.PostViewModel
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
-open class PostsListFragment : Fragment() {
+abstract class PostsListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
@@ -28,6 +32,9 @@ open class PostsListFragment : Fragment() {
     private val fragranceMap = mutableMapOf<String, Fragrance>()
     private val brandMap = mutableMapOf<String, Brand>()
     private val db = FirebaseFirestore.getInstance()
+    private var _binding: FragmentPostsListBinding? = null
+    protected val binding get() = _binding!!
+    protected open val viewModel by activityViewModels<PostViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +50,6 @@ open class PostsListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = PostAdapter(postList, fragranceMap, brandMap) { post ->
-            //val action = HomeFragmentDirections.actionHomeToPostDetails(post.id)
-            //findNavController().navigate(action)
         }
         recyclerView.adapter = adapter
 
@@ -91,7 +96,7 @@ open class PostsListFragment : Fragment() {
                     }
 
                     // Fetch posts after loading brands and fragrances
-                    fetchPosts()
+                    fetchPosts(getQuery())
                 }
             }
             .addOnFailureListener {
@@ -100,8 +105,8 @@ open class PostsListFragment : Fragment() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun fetchPosts() {
-        db.collection("posts").get()
+    private fun fetchPosts(query : Query) {
+        query.get()
             .addOnSuccessListener { result ->
                 postList.clear()
 
@@ -120,4 +125,6 @@ open class PostsListFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
     }
+
+    abstract fun getQuery(): Query
 }
