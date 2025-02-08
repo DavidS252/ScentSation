@@ -100,6 +100,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sweet, Spicy, Floral"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/thoughtsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My thoughts:"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginTop="15dp"/>
+
+        <TextView
+            android:id="@+id/fragranceDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This fragrance is known for its elegant and long-lasting scent."
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

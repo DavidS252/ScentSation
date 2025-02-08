@@ -37,6 +37,7 @@ class PostAdapter(
         val brandName: TextView = view.findViewById(R.id.brandName)
         val rating: TextView = view.findViewById(R.id.rating)
         val aromas: TextView = view.findViewById(R.id.aromas)
+        val fragranceDescription: TextView = view.findViewById(R.id.fragranceDescription)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -58,7 +59,7 @@ class PostAdapter(
             holder.brandName.text = brand.brandName
         }
         holder.rating.text = "Rating: ${post.fragranceRating}/5"
-
+        holder.fragranceDescription.text = post.description
         if (fragrance != null) {
             fragrance.photoUrl?.let {
                 getPublicImageUrl(it) { httpsUrl ->
