@@ -6,6 +6,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.firestoreSettings
+import com.google.firebase.firestore.memoryCacheSettings
 import com.google.firebase.storage.storage
 
 class PostFirebaseModel {
@@ -20,10 +21,10 @@ class PostFirebaseModel {
 
     init {
         val settings = firestoreSettings {
-            isPersistenceEnabled = true
+            setLocalCacheSettings(memoryCacheSettings { })
         }
+        db.firestoreSettings = settings
     }
-
 
     fun getPosts(since: Long, callback: (List<Post>) -> Unit) {
         db.collection(POSTS_COLLECTION_PATH)
