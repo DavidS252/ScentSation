@@ -12,6 +12,7 @@ import com.example.scentsation.data.post.Post
 import com.bumptech.glide.Glide
 import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.fragrance.Fragrance
+import com.example.scentsation.ui.PostsListFragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,8 +30,27 @@ class PostAdapter(
     var auth = Firebase.auth
     val storage = Firebase.storage
 
+    private var onPostItemClickListener: OnPostItemClickListener? = null
+
+    interface OnPostItemClickListener {
+        fun onPostItemClicked(
+            postId: String
+        )
+
+        fun onPostDeleteClicked(
+            postId: String
+        )
+
+        fun onPostEditClicked(
+            post: Post
+        )
+    }
+
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+
         val userProfileImage: ImageView = view.findViewById(R.id.userProfileImage)
+        val deleteButton: ImageView = view.findViewById(R.id.deleteButton)
         val userName: TextView = view.findViewById(R.id.userName)
         val imageView: ImageView = view.findViewById(R.id.imageView)
         val fragranceName: TextView = view.findViewById(R.id.fragranceName)
@@ -39,6 +59,8 @@ class PostAdapter(
         val aromas: TextView = view.findViewById(R.id.aromas)
         val fragranceDescription: TextView = view.findViewById(R.id.fragranceDescription)
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -86,6 +108,11 @@ class PostAdapter(
         holder.itemView.setOnClickListener {
             onPostClick(post)
         }
+
+        holder.deleteButton.setOnClickListener {
+            onPostItemClickListener?.onPostDeleteClicked(post.id)
+        }
+
     }
 
     private fun loadUserProfileImage(userId: String, imageView: ImageView) {

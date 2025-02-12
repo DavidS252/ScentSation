@@ -31,11 +31,21 @@
 
             <TextView
                 android:id="@+id/userName"
-                android:layout_width="wrap_content"
+                android:layout_width="221dp"
                 android:layout_height="wrap_content"
                 android:text="User Name"
-                android:textStyle="bold"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/white"
+                android:contentDescription="Delete"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bin" />
+
         </LinearLayout>
 
         <!-- Image and Fragrance Details -->
