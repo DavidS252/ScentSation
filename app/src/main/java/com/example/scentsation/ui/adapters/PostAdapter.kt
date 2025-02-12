@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scentsation.R
 import com.example.scentsation.data.post.Post
@@ -27,7 +28,7 @@ class PostAdapter(
     private val brandMap: Map<String, Brand>,
     private val onPostClick: (Post) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-    var auth = Firebase.auth
+    private val userId = Firebase.auth.uid
     val storage = Firebase.storage
 
     private var onPostItemClickListener: OnPostItemClickListener? = null
@@ -47,8 +48,6 @@ class PostAdapter(
     }
 
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-
         val userProfileImage: ImageView = view.findViewById(R.id.userProfileImage)
         val deleteButton: ImageView = view.findViewById(R.id.deleteButton)
         val userName: TextView = view.findViewById(R.id.userName)
@@ -94,6 +93,8 @@ class PostAdapter(
             }
         }
 
+        holder.deleteButton.isVisible = post.userId == userId
+
         loadUserProfileImage(post.userId, holder.userProfileImage)
 
         val db = FirebaseFirestore.getInstance()
@@ -109,9 +110,7 @@ class PostAdapter(
             onPostClick(post)
         }
 
-        holder.deleteButton.setOnClickListener {
-            onPostItemClickListener?.onPostDeleteClicked(post.id)
-        }
+        handleClicksCard(holder, position)
 
     }
 
@@ -139,6 +138,20 @@ class PostAdapter(
             Log.e("FirebaseStorage", "Invalid storage reference: ${e.message}")
             callback(null)
         }
+    }
+
+    fun setOnPostItemClickListener(listener: PostsListFragment) {
+        onPostItemClickListener = listener
+    }
+
+    private fun handleClicksCard(holder: PostViewHolder, position: Int) {
+        val post = posts[position]
+        holder.deleteButton.setOnClickListener {
+            onPostItemClickListener?.onPostDeleteClicked(post.id)
+        }
+//        holder.editBtn.setOnClickListener {
+//            onPostItemClickListener?.onPostEditClicked(post)
+//        }
     }
 
     override fun getItemCount(): Int = posts.size

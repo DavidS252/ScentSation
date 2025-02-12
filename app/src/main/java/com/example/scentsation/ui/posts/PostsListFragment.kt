@@ -25,7 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-abstract class PostsListFragment : Fragment() {
+abstract class PostsListFragment : Fragment(), PostAdapter.OnPostItemClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
@@ -36,6 +36,9 @@ abstract class PostsListFragment : Fragment() {
     private var _binding: FragmentPostsListBinding? = null
     protected val binding get() = _binding!!
     protected open val viewModel by activityViewModels<PostViewModel>()
+    private var onPostItemClickListener: PostAdapter.OnPostItemClickListener? = null
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,7 +130,8 @@ abstract class PostsListFragment : Fragment() {
             }
     }
 
-    private fun onPostDeleteClicked(postId: String) {
+
+    override fun onPostDeleteClicked(postId: String) {
         viewModel.posts.value?.let { posts ->
             val post = posts.firstOrNull { it.id == postId }
             if (post != null) {
