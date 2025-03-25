@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
+import okhttp3.*
+import org.json.JSONArray
+import java.io.IOException
 
 class CreatePostFragment : Fragment() {
 
@@ -99,7 +102,7 @@ class CreatePostFragment : Fragment() {
         val postId = UUID.randomUUID().toString()
 
         if (aromas.size < 3 || rating == 0f || thoughts.isEmpty()) {
-            Toast.makeText(requireContext(), "Please fill all fields and select an image", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         } else {
             val newPost = auth.currentUser?.let {
@@ -129,7 +132,7 @@ class CreatePostFragment : Fragment() {
             brandSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     selectedBrand = brandList[position]
-                    loadFragrances(selectedBrand!!.id)
+                    loadFragrancesFromApi(selectedBrand!!.brandName)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -137,34 +140,86 @@ class CreatePostFragment : Fragment() {
         }
     }
 
-    private fun loadFragrances(brandId: String) {
-        db.collection("fragrances").whereEqualTo("brandId", brandId).get()
-            .addOnSuccessListener { result ->
-                fragrances = result.map { it.toObject(Fragrance::class.java) }
+    private fun loadFragrancesFromApi(brandName: String) {
+        val client = OkHttpClient()
 
-                if (fragrances.isEmpty()) {
-                    Toast.makeText(requireContext(), "No fragrances available for the selected brand.", Toast.LENGTH_SHORT).show()
+        val url = "https://fragrancefinder-api.p.rapidapi.com/perfumes/search?q=${brandName}"
+
+        val request = Request.Builder()
+            .url(url)
+            .get()
+            .addHeader("X-RapidAPI-Key", "7dbaab08bamshc16f2c8f67139bep1fe542jsn217d06efb0af")
+            .addHeader("X-RapidAPI-Host", "fragrancefinder-api.p.rapidapi.com")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                activity?.runOnUiThread {
+                    Toast.makeText(requireContext(), "Failed to fetch fragrances", Toast.LENGTH_SHORT).show()
                 }
+            }
 
-                val fragranceNames = fragrances.map { it.fragranceName }
-                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fragranceNames)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                fragranceSpinner.adapter = adapter
-
-                // Set listener for fragrance selection
-                fragranceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val selectedFragrance = fragrances[position]
-                        selectedFragrance.photoUrl?.let { updateFragranceImage(it) }
+            override fun onResponse(call: Call, response: Response) {
+                response.body()?.string()?.let { body ->
+                    val jsonArray = JSONArray(body)
+                    fragrances = (0 until jsonArray.length()).map { i ->
+                        val jsonObj = jsonArray.getJSONObject(i)
+                        Fragrance(
+                            id = jsonObj.optString("id", ""),
+                            fragranceName = jsonObj.optString("perfume", ""),
+                            brandId = ""
+                        )
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                    val fragranceNames = fragrances.map { it.fragranceName }
+                    activity?.runOnUiThread {
+                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fragranceNames)
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        fragranceSpinner.adapter = adapter
+
+                        fragranceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                val selectedFragrance = fragrances[position]
+                                selectedFragrance.photoUrl?.let { updateFragranceImage(it) }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {}
+                        }
+                    }
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to load fragrances.", Toast.LENGTH_SHORT).show()
-            }
+        })
     }
+
+//    private fun loadFragrances(brandId: String) {
+//        db.collection("fragrances").whereEqualTo("brandId", brandId).get()
+//            .addOnSuccessListener { result ->
+//                fragrances = result.map { it.toObject(Fragrance::class.java) }
+//
+//                if (fragrances.isEmpty()) {
+//                    Toast.makeText(requireContext(), "No fragrances available for the selected brand.", Toast.LENGTH_SHORT).show()
+//                }
+//
+//                val fragranceNames = fragrances.map { it.fragranceName }
+//                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fragranceNames)
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                fragranceSpinner.adapter = adapter
+//
+//                // Set listener for fragrance selection
+//                fragranceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                        val selectedFragrance = fragrances[position]
+//                        selectedFragrance.photoUrl?.let { updateFragranceImage(it) }
+//                    }
+//
+//                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+//                }
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(requireContext(), "Failed to load fragrances.", Toast.LENGTH_SHORT).show()
+//            }
+//    }
+
 
     // Display the selected fragrance's image in the UI
     private fun updateFragranceImage(photoUrl: String) {
