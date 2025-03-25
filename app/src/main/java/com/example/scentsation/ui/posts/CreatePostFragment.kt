@@ -137,7 +137,7 @@ class CreatePostFragment : Fragment() {
     }
 
     private fun uploadImage(imageUri: Uri, photoId: String) {
-        val imageRef = storage.reference.child("images/fragrances/${photoId}.jpg")
+        val imageRef = storage.reference.child("images/fragrances/$photoId")
         imageRef.putFile(imageUri).addOnFailureListener {
             Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show()
         }
