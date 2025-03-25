@@ -118,20 +118,28 @@ class CreatePostFragment : Fragment() {
         val aromas = getSelectedTags()
         val postId = UUID.randomUUID().toString()
 
-        if (aromas.size < 3 || rating == 0f || thoughts.isEmpty()) {
-            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+        if (aromas.size < 3 || rating == 0f || thoughts.isEmpty() || selectedImageURI == null) {
+            Toast.makeText(requireContext(), "Please fill all fields and select an image", Toast.LENGTH_SHORT).show()
             return
         } else {
             val newPost = auth.currentUser?.let {
                 Post(postId, selectedFragrance.id, rating.toString(), it.uid, thoughts,
-                    false, selectedImageURI.toString(), aromas)
+                    false, postId, aromas)
             }
             if (newPost != null) {
+                uploadImage(selectedImageURI!!, postId)
                 PostModel.instance.addPost(newPost) {
                     Toast.makeText(requireContext(), "Post added successfully!", Toast.LENGTH_SHORT).show()
                     requireActivity().supportFragmentManager.popBackStack()
                 }
             }
+        }
+    }
+
+    private fun uploadImage(imageUri: Uri, photoId: String) {
+        val imageRef = storage.reference.child("images/fragrances/${photoId}.jpg")
+        imageRef.putFile(imageUri).addOnFailureListener {
+            Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -193,15 +201,6 @@ class CreatePostFragment : Fragment() {
                         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fragranceNames)
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         fragranceSpinner.adapter = adapter
-
-                        fragranceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                                val selectedFragrance = fragrances[position]
-                                selectedFragrance.photoUrl?.let { updateFragranceImage(it) }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {}
-                        }
                     }
                 }
             }
@@ -236,36 +235,6 @@ class CreatePostFragment : Fragment() {
 //                Toast.makeText(requireContext(), "Failed to load fragrances.", Toast.LENGTH_SHORT).show()
 //            }
 //    }
-
-
-    // Display the selected fragrance's image in the UI
-    private fun updateFragranceImage(photoUrl: String) {
-        val imageView = view?.findViewById<ImageView>(R.id.addFragranceImageButton)
-        if (imageView != null) {
-            getPublicImageUrl(photoUrl) { httpsUrl ->
-                Glide.with(requireContext())
-                    .load(
-                        httpsUrl ?: R.drawable.ic_placeholder
-                    ) // Load placeholder if URL retrieval fails
-                    .into(imageView)
-            }
-        }
-    }
-
-    private fun getPublicImageUrl(gsUrl: String, callback: (String?) -> Unit) {
-        try {
-            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl(gsUrl)
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                callback(uri.toString()) // Return the valid public URL
-            }.addOnFailureListener { e ->
-                Log.e("FirebaseStorage", "Failed to get public URL: ${e.message}")
-                callback(null) // Return null if failed
-            }
-        } catch (e: Exception) {
-            Log.e("FirebaseStorage", "Invalid storage reference: ${e.message}")
-            callback(null)
-        }
-    }
 
     private fun getSelectedTags(): List<String> {
         val tags = mutableListOf<String>()

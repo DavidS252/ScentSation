@@ -32,7 +32,7 @@ data class Post(
     val userId: String = "",
     val description: String = "",
     var isDeleted: Boolean = false,
-    var photo: String? = null,
+    var photo: String = "",
     var aromas: List<String> = emptyList()
 ) : Serializable {
 
@@ -58,6 +58,7 @@ data class Post(
         const val LAST_UPDATED_KEY = "timestamp"
         const val DESCRIPTION_KEY = "description"
         const val AROMAS_KEY = "aromas"
+        const val PHOTO_KEY = "photo"
         const val IS_DELETED_KEY = "is_deleted"
         private const val POST_LAST_UPDATED = "post_last_updated"
 
@@ -69,9 +70,10 @@ data class Post(
             val aromas = json[AROMAS_KEY] as? List<String> ?: emptyList()
             val isDeleted = json[IS_DELETED_KEY] as? Boolean ?: false
             val userId = json[USER_ID_KEY] as? String ?: ""
+            val photo = json[PHOTO_KEY] as? String ?: ""
 
             val post = Post(id, fragranceId, fragranceRating, userId, description, isDeleted,
-                null, aromas)
+                photo, aromas)
             return post
         }
     }
@@ -86,7 +88,8 @@ data class Post(
                 DESCRIPTION_KEY to description,
                 AROMAS_KEY to aromas,
                 IS_DELETED_KEY to isDeleted,
-                USER_ID_KEY to userId
+                USER_ID_KEY to userId,
+                PHOTO_KEY to photo
             )
         }
 
