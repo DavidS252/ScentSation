@@ -1,8 +1,11 @@
 package com.example.scentsation.ui.posts
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +20,11 @@ import com.example.scentsation.data.brand.Brand
 import com.example.scentsation.data.fragrance.Fragrance
 import com.example.scentsation.data.post.Post
 import com.example.scentsation.data.post.PostModel
+import com.example.scentsation.databinding.FragmentCreatePostBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import java.util.UUID
 import okhttp3.*
 import org.json.JSONArray
@@ -41,21 +46,28 @@ class CreatePostFragment : Fragment() {
     private lateinit var aromaGrid: GridLayout
     private var selectedImageURI: Uri? = null
 
-    private val imageSelectionCallBack = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        try {
-            val imageUri: Uri? = result.data?.data
-            if (imageUri != null) {
-                selectedImageURI = imageUri
-                addPhotoImageView.setImageURI(imageUri)
-            } else {
-                Toast.makeText(requireContext(), "No Image Selected", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Error processing image", Toast.LENGTH_SHORT).show()
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            selectedImageURI = result.data?.data
+            Picasso.get().load(selectedImageURI).into(addPhotoImageView)
         }
     }
+
+//    private val imageSelectionCallBack = registerForActivityResult(
+//        ActivityResultContracts.StartActivityForResult()
+//    ) { result: ActivityResult ->
+//        try {
+//            val imageUri: Uri? = result.data?.data
+//            if (imageUri != null) {
+//                selectedImageURI = imageUri
+//                addPhotoImageView.setImageURI(imageUri)
+//            } else {
+//                Toast.makeText(requireContext(), "No Image Selected", Toast.LENGTH_SHORT).show()
+//            }
+//        } catch (e: Exception) {
+//            Toast.makeText(requireContext(), "Error processing image", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     @SuppressLint("NewApi")
     override fun onCreateView(
@@ -76,6 +88,11 @@ class CreatePostFragment : Fragment() {
         aromaGrid = view.findViewById(R.id.aromaGrid)
 
         loadBrands()
+
+        view.findViewById<ImageView>(R.id.addFragranceImageButton).setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            imagePickerLauncher.launch(intent)
+        }
 
         view.findViewById<Button>(R.id.submitButton).setOnClickListener {
             uploadPost()
