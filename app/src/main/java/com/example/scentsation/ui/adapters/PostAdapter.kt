@@ -37,8 +37,8 @@ class PostAdapter(
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
 
-        holder.fragranceName.text = post.fragranceId
-        holder.brandName.text = post.id
+        holder.fragranceName.text = post.fragranceName
+        holder.brandName.text = post.fragranceBrand
 
         holder.rating.text = "Rating: ${post.fragranceRating}/5"
         holder.fragranceDescription.text = post.description

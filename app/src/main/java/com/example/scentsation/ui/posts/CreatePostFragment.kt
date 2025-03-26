@@ -53,22 +53,6 @@ class CreatePostFragment : Fragment() {
         }
     }
 
-//    private val imageSelectionCallBack = registerForActivityResult(
-//        ActivityResultContracts.StartActivityForResult()
-//    ) { result: ActivityResult ->
-//        try {
-//            val imageUri: Uri? = result.data?.data
-//            if (imageUri != null) {
-//                selectedImageURI = imageUri
-//                addPhotoImageView.setImageURI(imageUri)
-//            } else {
-//                Toast.makeText(requireContext(), "No Image Selected", Toast.LENGTH_SHORT).show()
-//            }
-//        } catch (e: Exception) {
-//            Toast.makeText(requireContext(), "Error processing image", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
     @SuppressLint("NewApi")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,7 +63,6 @@ class CreatePostFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
-
         brandSpinner = view.findViewById(R.id.brandSpinner)
         fragranceSpinner = view.findViewById(R.id.fragranceSpinner)
         ratingBar = view.findViewById(R.id.ratingBar)
@@ -123,8 +106,8 @@ class CreatePostFragment : Fragment() {
             return
         } else {
             val newPost = auth.currentUser?.let {
-                Post(postId, selectedFragrance.id, rating.toString(), it.uid, thoughts,
-                    false, postId, aromas)
+                Post(postId, selectedFragrance.fragranceName, selectedFragrance.brandName, rating.toString(), it.uid, thoughts,
+                    false, aromas)
             }
             if (newPost != null) {
                 uploadImage(selectedImageURI!!, postId)
@@ -192,7 +175,7 @@ class CreatePostFragment : Fragment() {
                         Fragrance(
                             id = jsonObj.optString("id", ""),
                             fragranceName = jsonObj.optString("perfume", ""),
-                            brandId = ""
+                            brandName = jsonObj.optString("brand", ""),
                         )
                     }
 

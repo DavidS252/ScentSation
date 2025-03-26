@@ -48,14 +48,6 @@ class PostModel private constructor() {
                     postsExecutor.execute {
                         database.postDao().delete(post)
                     }
-                } else {
-                    firebaseModel.getImage(post.id) { uri ->
-                        postsExecutor.execute {
-                            post.photo = uri.toString()
-                            database.postDao().insert(post)
-                        }
-                    }
-                    Post.lastUpdated = time
                 }
             }
             postsListLoadingState.postValue(LoadingState.LOADED)
