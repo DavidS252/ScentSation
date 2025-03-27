@@ -15,7 +15,8 @@ import com.squareup.picasso.Picasso
 
 
 class PostAdapter(
-    private val posts: List<Post>
+    private val posts: List<Post>,
+    private val onEditClick: (Post) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -26,6 +27,7 @@ class PostAdapter(
         val brandName: TextView = view.findViewById(R.id.brandName)
         val rating: TextView = view.findViewById(R.id.rating)
         val fragranceDescription: TextView = view.findViewById(R.id.fragranceDescription)
+        val editPostButton: ImageView = view.findViewById(R.id.editPostButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -46,6 +48,10 @@ class PostAdapter(
         loadPostImage(post.id, holder.imageView)
 
         loadUserProfileImage(post.userId, holder.userProfileImage)
+
+        holder.editPostButton.setOnClickListener {
+            onEditClick(post)
+        }
 
         val db = FirebaseFirestore.getInstance()
         db.collection("users").document(post.userId).get()
