@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_home_to_create_post"
             app:destination="@id/nav_create_post" />
+        <action
+            android:id="@+id/action_myPostsFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_create_post"
@@ -38,6 +41,14 @@
         <argument
             android:name="postId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.example.scentsation.ui.posts.EditPostFragment"
+        android:label="Edit Post" >
+        <argument
+            android:name="post"
+            app:argType="com.example.scentsation.data.post.Post" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"

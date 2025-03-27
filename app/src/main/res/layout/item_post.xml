@@ -38,6 +38,15 @@
                 android:textSize="14sp"/>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/editPostButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:src="@drawable/edit_square"
+            android:contentDescription="Edit Post"
+            android:padding="8dp"/>
+
         <!-- Image and Fragrance Details -->
         <LinearLayout
             android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scentsation.R
@@ -36,7 +37,10 @@ abstract class PostsListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = PostAdapter(postList)
+        adapter = PostAdapter(postList){ post ->
+            val action = MyPostsFragmentDirections.actionMyPostsFragmentToEditPostFragment(post)
+            findNavController().navigate(action)
+        }
         recyclerView.adapter = adapter
 
         fetchPosts(getQuery())
