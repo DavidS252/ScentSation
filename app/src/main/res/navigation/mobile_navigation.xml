@@ -8,9 +8,9 @@
         android:id="@+id/navigation_home"
         android:name="com.example.scentsation.ui.HomeFragment"
         android:label="Home" >
-<!--        <action-->
-<!--            android:id="@+id/action_home_to_postDetails"-->
-<!--            app:destination="@id/nav_postDetails" />-->
+        <action
+            android:id="@+id/action_myPostsFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
         <action
             android:id="@+id/action_nav_home_to_nav_create_post"
             app:destination="@id/nav_create_post" />
