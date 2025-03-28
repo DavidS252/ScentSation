@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scentsation.R
 import com.example.scentsation.data.post.Post
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
@@ -18,6 +21,8 @@ class PostAdapter(
     private val posts: List<Post>,
     private val onEditClick: (Post) -> Unit
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+
+    private var auth = Firebase.auth
 
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val userProfileImage: ImageView = view.findViewById(R.id.userProfileImage)
@@ -44,6 +49,8 @@ class PostAdapter(
 
         holder.rating.text = "Rating: ${post.fragranceRating}/5"
         holder.fragranceDescription.text = post.description
+
+        holder.editPostButton.isVisible = post.userId == auth.currentUser?.uid
 
         loadPostImage(post.id, holder.imageView)
 
